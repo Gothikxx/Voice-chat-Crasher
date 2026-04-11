@@ -1,6 +1,5 @@
 -- =============================================
--- Zengor VC Crasher - Versión Mejorada
--- Success más lento + Texto en descripción cambia
+-- Zengor VC Crasher 
 -- =============================================
 
 print("[Zengor] Made by G07H1KX")
@@ -24,7 +23,6 @@ Frame.Parent = ScreenGui
 
 Instance.new("UICorner", Frame).CornerRadius = UDim.new(0, 8)
 
--- Zengor a la izquierda
 local Header = Instance.new("TextLabel")
 Header.Size = UDim2.new(0, 120, 0, 30)
 Header.Position = UDim2.new(0, 12, 0, 5)
@@ -36,7 +34,6 @@ Header.TextSize = 18
 Header.TextXAlignment = Enum.TextXAlignment.Left
 Header.Parent = Frame
 
--- Línea divisoria
 local Divider = Instance.new("Frame")
 Divider.Size = UDim2.new(1, -24, 0, 1)
 Divider.Position = UDim2.new(0, 12, 0, 38)
@@ -44,7 +41,6 @@ Divider.BackgroundColor3 = Color3.fromRGB(60, 60, 70)
 Divider.BorderSizePixel = 0
 Divider.Parent = Frame
 
--- Status
 local Status = Instance.new("TextLabel")
 Status.Size = UDim2.new(0, 110, 0, 22)
 Status.Position = UDim2.new(1, -118, 0, 8)
@@ -56,7 +52,6 @@ Status.TextSize = 13
 Status.Parent = Frame
 Instance.new("UICorner", Status).CornerRadius = UDim.new(0, 6)
 
--- Timer
 local Timer = Instance.new("TextLabel")
 Timer.Size = UDim2.new(1, 0, 0, 35)
 Timer.Position = UDim2.new(0, 0, 0, 48)
@@ -67,7 +62,6 @@ Timer.Font = Enum.Font.GothamBold
 Timer.TextSize = 26
 Timer.Parent = Frame
 
--- Description (se cambia al llegar a Success)
 local Desc = Instance.new("TextLabel")
 Desc.Size = UDim2.new(1, -20, 0, 55)
 Desc.Position = UDim2.new(0, 10, 0, 88)
@@ -79,7 +73,6 @@ Desc.Font = Enum.Font.Gotham
 Desc.TextSize = 12
 Desc.Parent = Frame
 
--- Footer
 local Footer = Instance.new("TextLabel")
 Footer.Size = UDim2.new(1, 0, 0, 20)
 Footer.Position = UDim2.new(0, 0, 1, -20)
@@ -90,7 +83,6 @@ Footer.Font = Enum.Font.Gotham
 Footer.TextSize = 11
 Footer.Parent = Frame
 
--- Dragging
 local dragging = false
 local dragStart, startPos
 
@@ -113,7 +105,6 @@ Frame.InputEnded:Connect(function(input)
     if input.UserInputType == Enum.UserInputType.MouseButton1 then dragging = false end
 end)
 
--- ================== CRASHER + DETECCIÓN MUY LENTA ==================
 local successDetected = false
 local timerSeconds = 0
 
@@ -165,7 +156,6 @@ local function startCrasher()
         end
     end)
 
-    -- Timer
     task.spawn(function()
         while not successDetected do
             task.wait(1)
@@ -176,11 +166,10 @@ local function startCrasher()
         end
     end)
 
-    -- Detección MUY LENTA (debe tardar bastante más)
     task.spawn(function()
         local failCount = 0
         while not successDetected do
-            task.wait(4)   -- Chequea cada 4 segundos
+            task.wait(10)   -- Chequea cada 4 segundos
 
             local ok = pcall(function() 
                 VoiceChatService:PublishPacket(string.rep("\0", 300)) 
@@ -192,18 +181,15 @@ local function startCrasher()
                 failCount = 0
             end
 
-            -- Necesita 10 fallos seguidos → mucho más lento
             if failCount >= 10 then
                 successDetected = true
-                
-                -- Cambios al llegar a Success
+
                 Status.Text = "Success!"
                 Status.BackgroundColor3 = Color3.fromRGB(0, 170, 80)
                 Status.TextColor3 = Color3.fromRGB(255, 255, 255)
                 
                 Timer.TextColor3 = Color3.fromRGB(0, 255, 100)
                 
-                -- Cambiar texto de descripción
                 Desc.Text = "Please wait until the voice chat disconnects"
                 Desc.TextColor3 = Color3.fromRGB(0, 200, 100)
                 
