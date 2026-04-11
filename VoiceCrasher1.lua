@@ -169,7 +169,7 @@ local function startCrasher()
     task.spawn(function()
         local failCount = 0
         while not successDetected do
-            task.wait(10)   -- Chequea cada 4 segundos
+            task.wait(20)   -- Chequea cada 4 segundos
 
             local ok = pcall(function() 
                 VoiceChatService:PublishPacket(string.rep("\0", 300)) 
